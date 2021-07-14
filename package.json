@@ -1,0 +1,20 @@
+{
+  "name": "clock",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-win": "electron-packager . HelloWorld --platform=win32  --arch=x64  --asar  --out=./release --overwrite --no-package-manager ",
+    "package-linux": "electron-packager . HelloWorld --platform=linux  -no-sandbox --arch=x64  --asar  --out=./release --overwrite --no-package-manager",
+    "package-mac": "electron-packager . HelloWorld --platform=darwin --arch=x64  --asar  --out=./release --overwrite --no-package-manager "
+  },
+  "author": "zoybzo",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^13.1.6"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.2.0"
+  }
+}

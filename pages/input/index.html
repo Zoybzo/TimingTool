@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <link href="index.css" rel="stylesheet">
+  <title>clock</title>
+</head>
+
+<body>
+  <div id='getTime'>
+    <input id='hh' placeholder="00">
+    <input id='mm' placeholder="00">
+    <input id='ss' placeholder="00">
+    <input id='txt' >
+    <button id='btn'>start</button>
+  </div>
+
+  <script>
+    const { remote, ipcMain } = require('electron');
+    const { BrowserWindow } = remote;
+    const btn = this.document.querySelector('#btn')
+    // const { BrowserWindow } = require('electron/index')
+
+    window.onload = function () {
+      var newWin;
+      btn.onclick = () => {
+        newWin = new BrowserWindow({
+          fullscreen: true,
+          webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true
+          }
+        })
+
+        newWin.loadFile('pages/clock/clock.html')
+
+        newWin.on('close', () => {
+          newWin = null
+        })
+        newWin.webContents.on('did-finish-load', () => {
+          newWin.webContents.send('h', this.document.getElementById('hh').value)
+          newWin.webContents.send('m', this.document.getElementById('mm').value)
+          newWin.webContents.send('s', this.document.getElementById('ss').value)
+          newWin.webContents.send('text', this.document.getElementById('txt').value)
+        })
+      }
+    }
+  </script>
+</body>
+
+</html>
